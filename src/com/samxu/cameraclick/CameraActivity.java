@@ -26,7 +26,7 @@ import android.widget.Toast;
 public class CameraActivity extends Activity {
 
 	private static Camera mSingletonCamera = null;
-	private static final String TAG = "myCameraTag";
+	private static final String TAG = "myyyyyyyCameraTag";
 	
 	private CameraPreview mCameraPreview = null;
 	
@@ -53,7 +53,7 @@ public class CameraActivity extends Activity {
     @Override
     public void onDestroy() {
     	releaseCamera();
-    	Log.d("CAMERA","Destroy");
+    	Log.d(TAG,"Destroy");
         super.onDestroy();
     }
     
@@ -163,6 +163,9 @@ public class CameraActivity extends Activity {
 	    
 	};
 	
+	
+	//take picture call back
+	//handle picture save
     private PictureCallback mPicture = new PictureCallback() {
 
         @SuppressWarnings("unused")
@@ -178,12 +181,14 @@ public class CameraActivity extends Activity {
                 Log.d(TAG, "Error creating media file, check storage permissions: no file");
             } else {
             
-	            if(false){// produce the rgb image
+	            if(true){// produce the rgb image
 	    			Camera.Parameters params = camera.getParameters();
 	    			int imageWidth = params.getPreviewSize().width;
 	    			int imageHeight = params.getPreviewSize().height;
+	    			float degree = params.getHorizontalViewAngle();
 	    			int[] rgbData = new int[imageWidth * imageHeight]; 
-	    			dataToRGB(rgbData, data, imageWidth, imageHeight);  
+	    			dataToRGB(rgbData, data, imageWidth, imageHeight);
+	    			Log.d(TAG, "width="+imageWidth+",height="+imageHeight+",degree="+degree);
 	    		}
 	
 	            try {
@@ -311,7 +316,8 @@ public class CameraActivity extends Activity {
             // start preview with new settings
             try {
                 mCamera.setPreviewDisplay(mHolder);
-                setEasyOrientation(mCamera, 90);
+                //setEasyOrientation(mCamera, 90);
+                setCameraDisplayOrientation(CameraActivity.this, 0, mCamera);
                 mCamera.startPreview();
                 Log.d(TAG, "surface changed");
             } catch (Exception e){
