@@ -27,6 +27,7 @@ public class CameraActivity extends Activity {
 
 	private static Camera mSingletonCamera = null;
 	private static final String TAG = "myyyyyyyCameraTag";
+	private static int cameraDegree = 0;
 	
 	private CameraPreview mCameraPreview = null;
 	
@@ -39,6 +40,10 @@ public class CameraActivity extends Activity {
 		mCameraPreview = new CameraPreview(CameraActivity.this);
 		FrameLayout preview = (FrameLayout) findViewById(R.id.preview);
 		preview.addView(mCameraPreview);
+		
+		MyTextView mtv = new MyTextView(this);
+		FrameLayout textFrameLayout = (FrameLayout) findViewById(R.id.location_text);
+		textFrameLayout.addView(mtv);
 		
 		initCamera();
 	}
@@ -95,6 +100,7 @@ public class CameraActivity extends Activity {
         
         Log.d(TAG, "set Orientation: "+result);
         camera.setDisplayOrientation(result);
+        cameraDegree = result;
     }
     
     public static void setEasyOrientation(Camera camera, int degree) {
@@ -183,12 +189,13 @@ public class CameraActivity extends Activity {
             
 	            if(true){// produce the rgb image
 	    			Camera.Parameters params = camera.getParameters();
+
 	    			int imageWidth = params.getPreviewSize().width;
 	    			int imageHeight = params.getPreviewSize().height;
-	    			float degree = params.getHorizontalViewAngle();
+
 	    			int[] rgbData = new int[imageWidth * imageHeight]; 
 	    			dataToRGB(rgbData, data, imageWidth, imageHeight);
-	    			Log.d(TAG, "width="+imageWidth+",height="+imageHeight+",degree="+degree);
+	    			Log.d(TAG, "width="+imageWidth+",height="+imageHeight);
 	    		}
 	
 	            try {
